@@ -12,3 +12,9 @@ dependencies {
 }
 
 compileKotlin2Js.kotlinOptions.moduleKind = "umd"
+
+task('explodeJar', type: Copy) {
+    from(zipTree('build/libs/sailracecalculator-js.jar'))
+    into('build/npm_upload')
+    dependsOn(jar)
+}
