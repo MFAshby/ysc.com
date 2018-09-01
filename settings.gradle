@@ -15,6 +15,6 @@ pluginManagement {
         }
     }
 }
-rootProject.name = 'SailRaceCalculator'
 
-include 'SailRaceCalculator-common', 'SailRaceCalculator-jvm', 'SailRaceCalculator-js'
+rootProject.name = 'ysc.com'
+include 'sailracetimerserver', 'sailracecalculator-common', 'sailracecalculator-js', 'sailracecalculator-jvm'

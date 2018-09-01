@@ -33,8 +33,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
 
     // Entity classes
-    compile 'net.mfashby.sailracecalculator:sailracecalculator-common:1.0.0'
-    compile 'net.mfashby.sailracecalculator:sailracecalculator:1.0.0'
+    compile project(':sailracecalculator-jvm')
 
     // command line argument parser
     compile "com.github.ajalt:clikt:${clikt_version}"
