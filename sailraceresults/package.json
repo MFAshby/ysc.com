@@ -1,0 +1,16 @@
+{
+  "name": "sailraceresults",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "npx react-scripts start",
+    "build": "npx react-scripts build",
+    "test": "npx react-scripts test --env=jsdom",
+    "eject": "npx react-scripts eject"
+  }
+}
