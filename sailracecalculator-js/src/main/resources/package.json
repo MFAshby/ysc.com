@@ -1,8 +1,8 @@
 {
-  "name": "sail-race-calculator",
+  "name": "sailracecalculator",
   "version": "1.0.0",
   "description": "Sailing race calculator functions",
-  "main": "SailRaceCalculator-js.js",
+  "main": "sailracecalculator-js.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

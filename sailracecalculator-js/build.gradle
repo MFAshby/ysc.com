@@ -11,10 +11,16 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-js"
 }
 
-compileKotlin2Js.kotlinOptions.moduleKind = "umd"
+compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 
 task('explodeJar', type: Copy) {
     from(zipTree('build/libs/sailracecalculator-js.jar'))
-    into('build/npm_upload')
+    into('build/sailracecalculator')
     dependsOn(jar)
+}
+
+task('yarnLink', type: Exec) {
+    workingDir('build/sailracecalculator')
+    commandLine 'yarn', 'link'
+    dependsOn(explodeJar)
 }
