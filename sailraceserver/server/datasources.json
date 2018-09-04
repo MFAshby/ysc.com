@@ -1,0 +1,12 @@
+{
+  "db": {
+    "host": "localhost",
+    "port": 3306,
+    "url": "mysql://root:example@db/yxsecnyo_ysc",
+    "database": "yxsecnyo_ysc",
+    "password": "example",
+    "name": "db",
+    "user": "root",
+    "connector": "mysql"
+  }
+}
