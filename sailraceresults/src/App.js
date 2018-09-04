@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './App.css'
 
 const API_SERVER = process.env.REACT_APP_API_SERVER 
-//"https://ysc.nsupdate.info/api"
 
 async function fetchJson(target) {
     let response = await fetch(target)
@@ -30,14 +29,11 @@ class RaceResult extends Component {
         let { race } = this.props
 
         // Fetch the results for this race
-        let results = await fetchJson(`${API_SERVER}/result?raceID=${race.id}&sort=posn`)
+        let results = await fetchJson(`${API_SERVER}/results?filter[where][raceid]=${race.id}&filter[order]=posn&filter[include][resultIbfk2rel]=individualIbfk1rel`)
 
-        // Fetch the individuals for these results & assign them
-        let individualQuery = results.map(it => "id="+it.individualID).join("&")
-        let individuals = await fetchJson(API_SERVER + `/individual?${individualQuery}`)
-        let individualMap = new Map(individuals.map(i => [i.id, i]))
         results.forEach(it => {
-            it.individual = individualMap.get(it.individualID) || {}
+            it.individual = it.resultIbfk2rel
+            it.individual.boattype = it.individual.individualIbfk1rel
         })
 
         this.setState({
@@ -93,20 +89,16 @@ class App extends Component {
 
     updateRaces = async (numRaces) => {
         this.setState({loading: true, numRaces: numRaces})
-        let series = await fetchJson(`${API_SERVER}/series`)
-        let races = await fetchJson(`${API_SERVER}/race?finished=true&sort=rdate_desc&limit=${numRaces}`)
+        let races = await fetchJson(`${API_SERVER}/races?filter[where][flg]=true&filter[include]=raceIbfk1rel&filter[limit]=${numRaces}&filter[order]=rdate DESC`)
 
         // Link up some data & change dates to something useful
-        let seriesMap = new Map(series.map(s => [s.id, s]))
+        // let seriesMap = new Map(series.map(s => [s.id, s]))
         races.forEach(r => {
-            r.series = seriesMap.get(r.seriesID) || {}
-
-            let { year, monthValue, dayOfMonth } = r.rdate
-            r.racedate = new Date(year, monthValue-1, dayOfMonth) // Java vs Javascript date!
+            r.series = r.raceIbfk1rel
+            r.racedate = new Date(r.rdate)
         })
-
+        //
         this.setState({
-            series:series,
             races:races,
             loading: false
         })
