@@ -3,14 +3,16 @@ version: '3'
 services:
   db:
     image: mfashby/ysc-mysql-demo
-    build: mysql
+    build: ../mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: example
+    ports:
+     - 3306:3306
 
   api-server:
     image: mfashby/ysc-apiserver-demo
-    build: sailracetimerserver
+    build: ../sailracetimerserver
     environment:
      - DB_URL=jdbc:mysql://db:3306/yxsecnyo_ysc
      - DB_USER=root
