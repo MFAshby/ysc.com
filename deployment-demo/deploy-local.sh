@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
+# Server config
+export DB_HOST=db
+export DB_PORT=3306
+export DB_DATABASE=yxsecnyo_ysc
+export DB_USER=root
+export DB_PASSWORD=example
 
-
-
-# Get the latest of submodules
-git submodule update --init --recursive --remote
-
-# Build the server project
-pushd ../sailracetimerserver
-./gradlew clean build fatJar
-popd
+# Client config
+export REACT_APP_API_SERVER="http://localhost:8080/api"
+export PUBLIC_URL="http://localhost:8080/results"
 
 # Build the results widget
 pushd ../sailraceresults
 yarn
-REACT_APP_API_SERVER="http://localhost:8080/api" PUBLIC_URL="http://localhost:8080/results" yarn run build
+  yarn run build
 popd
 
 # Copy build products to the static web server folder
