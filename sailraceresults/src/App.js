@@ -29,12 +29,7 @@ class RaceResult extends Component {
         let { race } = this.props
 
         // Fetch the results for this race
-        let results = await fetchJson(`${API_SERVER}/results?filter[where][raceid]=${race.id}&filter[order]=posn&filter[include][resultIbfk2rel]=individualIbfk1rel`)
-
-        results.forEach(it => {
-            it.individual = it.resultIbfk2rel
-            it.individual.boattype = it.individual.individualIbfk1rel
-        })
+        let results = await fetchJson(`${API_SERVER}/results?filter[where][raceid]=${race.id}&filter[order]=posn&filter[include][individual]=boattype`)
 
         this.setState({
             loading: false,
@@ -89,15 +84,13 @@ class App extends Component {
 
     updateRaces = async (numRaces) => {
         this.setState({loading: true, numRaces: numRaces})
-        let races = await fetchJson(`${API_SERVER}/races?filter[where][flg]=true&filter[include]=raceIbfk1rel&filter[limit]=${numRaces}&filter[order]=rdate DESC`)
+        let races = await fetchJson(`${API_SERVER}/races?filter[where][flg]=true&filter[include]=series&filter[limit]=${numRaces}&filter[order]=rdate DESC`)
 
-        // Link up some data & change dates to something useful
-        // let seriesMap = new Map(series.map(s => [s.id, s]))
+        // Parse dates into actual dates
         races.forEach(r => {
-            r.series = r.raceIbfk1rel
             r.racedate = new Date(r.rdate)
         })
-        //
+
         this.setState({
             races:races,
             loading: false
