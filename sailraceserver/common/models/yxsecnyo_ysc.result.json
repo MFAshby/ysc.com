@@ -1,0 +1,160 @@
+{
+  "name": "Result",
+  "options": {
+    "idInjection": false,
+    "mysql": {
+      "schema": "yxsecnyo_ysc",
+      "table": "result"
+    },
+    "relations": {
+      "race": {
+        "model": "Race",
+        "type": "belongsTo",
+        "foreignKey": "raceid"
+      },
+      "individual": {
+        "model": "Individual",
+        "type": "belongsTo",
+        "foreignKey": "individualid"
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "id": 1,
+      "mysql": {
+        "columnName": "ID",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "individualid": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "individualID",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "nlaps": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "nlaps",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    },
+    "rtime": {
+      "type": "String",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "rtime",
+        "dataType": "time",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "adjtime": {
+      "type": "String",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "adjtime",
+        "dataType": "time",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "posn": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "posn",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    },
+    "raceid": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "raceID",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    },
+    "fleet": {
+      "type": "String",
+      "required": false,
+      "length": 32,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "fleet",
+        "dataType": "varchar",
+        "dataLength": 32,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "crew": {
+      "type": "String",
+      "required": false,
+      "length": 32,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "crew",
+        "dataType": "varchar",
+        "dataLength": 32,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    }
+  }
+}

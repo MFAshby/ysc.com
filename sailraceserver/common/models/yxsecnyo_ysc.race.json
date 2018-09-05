@@ -1,0 +1,215 @@
+{
+  "name": "Race",
+  "options": {
+    "idInjection": false,
+    "mysql": {
+      "schema": "yxsecnyo_ysc",
+      "table": "race"
+    },
+    "relations": {
+      "series": {
+        "model": "Series",
+        "type": "belongsTo",
+        "foreignKey": "seriesid"
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "id": 1,
+      "mysql": {
+        "columnName": "ID",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "seriesid": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "seriesID",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "rdate": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "rdate",
+        "dataType": "date",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "name": {
+      "type": "String",
+      "required": true,
+      "length": 64,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 64,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "wholelegs": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "wholelegs",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "partlegs": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "partlegs",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "ood": {
+      "type": "String",
+      "required": false,
+      "length": 32,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "ood",
+        "dataType": "varchar",
+        "dataLength": 32,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "aood": {
+      "type": "String",
+      "required": false,
+      "length": 32,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "aood",
+        "dataType": "varchar",
+        "dataLength": 32,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "winddir": {
+      "type": "String",
+      "required": false,
+      "length": 8,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "winddir",
+        "dataType": "varchar",
+        "dataLength": 8,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "windstr": {
+      "type": "String",
+      "required": false,
+      "length": 8,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "windstr",
+        "dataType": "varchar",
+        "dataLength": 8,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "comments": {
+      "type": "String",
+      "required": false,
+      "length": 64,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "comments",
+        "dataType": "varchar",
+        "dataLength": 64,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "flg": {
+      "type": "Boolean",
+      "required": true,
+      "length": 1,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "flg",
+        "dataType": "char",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "inputter": {
+      "type": "String",
+      "required": false,
+      "length": 3,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "inputter",
+        "dataType": "char",
+        "dataLength": 3,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    }
+  }
+}

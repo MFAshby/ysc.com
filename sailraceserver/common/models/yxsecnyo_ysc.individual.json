@@ -1,0 +1,185 @@
+{
+  "name": "Individual",
+  "options": {
+    "idInjection": false,
+    "mysql": {
+      "schema": "yxsecnyo_ysc",
+      "table": "individual"
+    },
+    "relations": {
+      "boattype": {
+        "model": "Boattype",
+        "type": "belongsTo",
+        "foreignKey": "boattypeid"
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "id": 1,
+      "mysql": {
+        "columnName": "ID",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "boattypeid": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "boattypeID",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "name": {
+      "type": "String",
+      "required": true,
+      "length": 64,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 64,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "boatnum": {
+      "type": "String",
+      "required": true,
+      "length": 32,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "boatnum",
+        "dataType": "varchar",
+        "dataLength": 32,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "ph": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "ph",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    },
+    "btype": {
+      "type": "String",
+      "required": false,
+      "length": 32,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "btype",
+        "dataType": "varchar",
+        "dataLength": 32,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "sortscore": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 22,
+      "scale": null,
+      "mysql": {
+        "columnName": "sortscore",
+        "dataType": "double",
+        "dataLength": null,
+        "dataPrecision": 22,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "type": {
+      "type": "String",
+      "required": false,
+      "length": 8,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "type",
+        "dataType": "varchar",
+        "dataLength": 8,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "pursuit1": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "pursuit1",
+        "dataType": "time",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "pursuit2": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "pursuit2",
+        "dataType": "time",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "splitter": {
+      "type": "String",
+      "required": true,
+      "length": 128,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "splitter",
+        "dataType": "varchar",
+        "dataLength": 128,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    }
+  }
+}

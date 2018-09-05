@@ -12,5 +12,20 @@
       "../common/mixins",
       "./mixins"
     ]
+  },
+  "Result": {
+    "dataSource": "db"
+  },
+  "Race": {
+    "dataSource": "db"
+  },
+  "Series": {
+    "dataSource": "db"
+  },
+  "Boattype": {
+    "dataSource": "db"
+  },
+  "Individual": {
+    "dataSource": "db"
   }
 }
