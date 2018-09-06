@@ -43,8 +43,15 @@ class RaceResult extends Component {
         let { race } = this.props
 
         // Fetch the results for this race
-        // TODO make an object and stringify it?
-        var results = await fetchJson(`${API_SERVER}/results?filter={"where":{"raceid":${race.id}},"include":{"relation":"individual", "scope":{"include":"boattype"}}}`)
+        let api_select = JSON.stringify({
+            where:{raceid:race.id},
+            include:{
+                relation:"individual",
+                scope:{include:"boattype"}
+            }
+        });
+        //var results = await fetchJson(`${API_SERVER}/results?filter={"where":{"raceid":${race.id}},"include":{"relation":"individual", "scope":{"include":"boattype"}}}`)
+        var results = await fetchJson(`${API_SERVER}/results?filter=${api_select}`)
         let maxlaps = results.reduce((max, r) => (r.nlaps > max) ? r.nlaps : max, results[0].nlaps);
         for (var i in results) {
             if (results[i].rtime === '24:00:00') {
