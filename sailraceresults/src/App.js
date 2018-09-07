@@ -53,26 +53,26 @@ class RaceResult extends Component {
         //var results = await fetchJson(`${API_SERVER}/results?filter={"where":{"raceid":${race.id}},"include":{"relation":"individual", "scope":{"include":"boattype"}}}`)
         var results = await fetchJson(`${API_SERVER}/results?filter=${api_select}`)
         let maxlaps = results.reduce((max, r) => (r.nlaps > max) ? r.nlaps : max, results[0].nlaps);
-        for (var i in results) {
-            if (results[i].rtime === '24:00:00') {
-                results[i].adjtime = '24:00:00';
+        results.forEach(r => {
+            if (r.rtime === '24:00:00') {
+                r.adjtime = '24:00:00';
             } else {
-                let pyn = results[i].individual.boattype.pyn;
-                results[i].adjtime = tmToSt(stToTm(results[i].rtime) * 1200 / pyn /
-                         (results[i].nlaps * race.wholelegs + race.partlegs) *
+                let pyn = r.individual.boattype.pyn;
+                r.adjtime = tmToSt(stToTm(r.rtime) * 1200 / pyn /
+                         (r.nlaps * race.wholelegs + race.partlegs) *
                          race.wholelegs * maxlaps);
             }
-        }
+        });
         results.sort((a, b) => a.adjtime > b.adjtime); // should work for string sorting
         var seq_num = 1;
-        for (i in results) {
-            if (results[i].adjtime === '24:00:00') {
-                results[i].posn = Math.max(15, seq_num + 1);
+        results.forEach(r => {
+            if (r.adjtime === '24:00:00') {
+                r.posn = Math.max(15, seq_num + 1);
             } else {
-                results[i].posn = seq_num;
+                r.posn = seq_num;
                 seq_num += 1;
             }
-        }
+        });
         this.setState({
             loading: false,
             results: results
@@ -156,7 +156,8 @@ class App extends Component {
     render() {
         let { races, loading, numRaces } = this.state
         let racesList = races
-            .sort((a, b) => b.racedate.valueOf() - a.racedate.valueOf())
+            .sort((a, b) => b.racedate.valueOf() >= a.racedate.valueOf() &&
+                            b.name > a.name)
             .map(r => (<RaceResult key={r.id} race={r}/>))
 
         return (
