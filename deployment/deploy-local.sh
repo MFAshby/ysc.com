@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Web server config
 export EXTERNAL_URL=localhost:8080
 export TLS_CONFIG=off
@@ -14,14 +13,24 @@ yarn
 popd
 
 # Build results widget
-pushd ../sailraceresults
-yarn
-yarn run build
-popd
+#pushd ../sailraceresults
+#yarn
+#yarn run build
+#popd
 
 # Copy single page apps to web server static files dir
-rm -rf front/static/results
-cp -r ../sailraceresults/build front/static/results
+#rm -rf front/static/results
+#cp -r ../sailraceresults/build front/static/results
+
+# Build the results widget
+pushd ../sailraceresults-plugin
+yarn 
+yarn run prod
+popd
+
+# Copy it to wordpress
+rm -rf wordpress/files/html/wp-content/plugins/sailraceresults-plugin
+cp -r ../sailraceresults-plugin wordpress/files/html/wp-content/plugins/
 
 # rebuild all docker images, re-create containers
 docker-compose down

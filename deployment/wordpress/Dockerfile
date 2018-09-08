@@ -1,2 +1,2 @@
 FROM wordpress
-COPY files/html /var/www
+COPY files/html/ /var/www/html/
