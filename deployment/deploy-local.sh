@@ -8,12 +8,6 @@ pushd ../sailraceserver
 yarn
 popd
 
-# Build common client-side code
-pushd ../sailracecalculator
-yarn
-yarn run build
-popd
-
 # Build results component
 pushd ../sailraceresults
 yarn
