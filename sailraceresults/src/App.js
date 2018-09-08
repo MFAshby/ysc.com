@@ -8,6 +8,20 @@ async function fetchJson(target) {
     return await response.json()
 }
 
+function stToTm(st) { // NB requires a properly formatted str HH:MM:SS
+    let t = st.split(':');
+    return parseInt(t[0], 10) * 3600 + parseInt(t[1], 10) * 60 + parseInt(t[2], 10);
+}
+
+function tmToSt(tm) { // there has to be a nicer way of doing this!
+    let h = Math.floor(tm / 3600);
+    let m = Math.floor(tm / 60) % 60;
+    let s = Math.floor(tm + 0.5) % 60
+    return "" + h.toString(10).padStart(2, '0') +
+          ":" + m.toString(10).padStart(2, '0') +
+          ":" + s.toString(10).padStart(2, '0');
+}
+
 class LoadingIndicator extends Component {
     render() {
         let { loading }= this.props
@@ -28,12 +42,32 @@ class RaceResult extends Component {
         this.setState({loading: true})
         let { race } = this.props
 
-        // Fetch the results for this race
-        let results = await fetchJson(`${API_SERVER}/results?filter[where][raceid]=${race.id}&filter[order]=posn&filter[include][individual]=boattype`)
-
+        // result array already included in race object
+        let maxlaps = race.result.reduce((max, r) => (r.nlaps > max) ? r.nlaps : max,
+                                            race.result[0].nlaps)
+        race.result.forEach(r => {
+            if (r.rtime === '24:00:00') {
+                r.adjtime = '24:00:00'
+            } else {
+                let pyn = r.individual.boattype.pyn;
+                r.adjtime = tmToSt(stToTm(r.rtime) * 1200 / pyn /
+                         (r.nlaps * race.wholelegs + race.partlegs) *
+                         race.wholelegs * maxlaps)
+            }
+        })
+        race.result.sort((a, b) => a.adjtime > b.adjtime); // should work for string sorting
+        var seq_num = 1;
+        race.result.forEach(r => {
+            if (r.adjtime === '24:00:00') {
+                r.posn = Math.max(15, seq_num + 1)
+            } else {
+                r.posn = seq_num
+                seq_num += 1
+            }
+        })
         this.setState({
             loading: false,
-            results: results
+            results: race.result
         })
     }
 
@@ -47,7 +81,11 @@ class RaceResult extends Component {
         let { race } = this.props
         let { loading, results } = this.state
         let resultRows = results
-            .map(it => <tr key={it.id}><td>{it.posn}</td><td>{it.individual.name}</td></tr>)
+            .map(it => <tr key={it.id}><td>{it.posn}</td>
+                                       <td>{it.individual.name}</td>
+                                       <td>{it.individual.boattype.btype}</td>
+                                       <td>{it.adjtime}</td>
+                        </tr>)
 
         return <div>
             <h2>{race.name}</h2>
@@ -60,6 +98,8 @@ class RaceResult extends Component {
                     <tr>
                         <th>Position</th>
                         <th>Name</th>
+                        <th>Boat</th>
+                        <th>Adjusted Time</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -84,8 +124,27 @@ class App extends Component {
 
     updateRaces = async (numRaces) => {
         this.setState({loading: true, numRaces: numRaces})
-        let races = await fetchJson(`${API_SERVER}/races?filter[where][flg]=true&filter[include]=series&filter[limit]=${numRaces}&filter[order]=rdate DESC`)
+        // Fetch the results for this race
+        let api_select = JSON.stringify({
+            where:{flg:true},
+            include:[
+                {relation:"series"},{
+                    relation:"result", scope:{
+                        include:{
+                            relation:"individual",
+                            scope:{
+                                include:"boattype"
+                            }
+                        }
+                    }
+                }
+            ],
+            order:"rdate DESC",
+            limit:numRaces
+        })
 
+        //let races = await fetchJson(`${API_SERVER}/races?filter[where][flg]=true&filter[include]=series&filter[limit]=${numRaces}&filter[order]=rdate DESC`)
+        let races = await fetchJson(`${API_SERVER}/races?filter=${api_select}`)
         // Parse dates into actual dates
         races.forEach(r => {
             r.racedate = new Date(r.rdate)
@@ -110,7 +169,8 @@ class App extends Component {
     render() {
         let { races, loading, numRaces } = this.state
         let racesList = races
-            .sort((a, b) => b.racedate.valueOf() - a.racedate.valueOf())
+            .sort((a, b) => b.racedate.valueOf() >= a.racedate.valueOf() &&
+                            b.name > a.name)
             .map(r => (<RaceResult key={r.id} race={r}/>))
 
         return (

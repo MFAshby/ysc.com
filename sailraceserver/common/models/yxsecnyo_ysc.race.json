@@ -11,6 +11,11 @@
         "model": "Series",
         "type": "belongsTo",
         "foreignKey": "seriesid"
+      },
+      "result": {
+        "model": "Result",
+        "type": "hasMany",
+        "foreignKey": "raceid"
       }
     }
   },
