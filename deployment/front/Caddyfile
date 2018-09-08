@@ -17,6 +17,7 @@ proxy / http://wordpress {
 
     # Apart from any Single Page Apps we want to serve ourselves (list them all here)
     except /results
+    except /admin
 }
 
 
