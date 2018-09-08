@@ -5,15 +5,5 @@
   "main": "lib/index.js",
   "repository": "github.com/MFAshby/ysc.com",
   "author": "Martin Ashby",
-  "license": "MIT",
-  "scripts": {
-    "build": "babel src -d lib"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.0.0",
-    "babel-preset-env": "1.7.0"
-  },
-  "babel": {
-    "presets": "env"
-  }
+  "license": "MIT"
 }
