@@ -1,0 +1,14 @@
+{
+    "name": "MyUser",
+    "base": "User",
+    "relations": {
+        "accessTokens": {
+            "type": "hasMany",
+            "model": "AccessToken",
+            "foreignKey": "userId",
+            "options": {
+                "disableInclude": true
+            }
+        }
+    }
+}

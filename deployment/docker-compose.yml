@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  mysql:
+    image: mfashby/ysc-mysql
+    build: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+     - 3306:3306
+
+  api-server:
+    image: mfashby/ysc-apiserver
+    build: ../sailraceserver
+    restart: always
+    environment:
+     - DB_URL
+
+  front:
+    image: mfashby/ysc-front
+    build: front
+    environment:
+     - EXTERNAL_URL
+     - TLS_CONFIG
+    ports:
+     - 8080:8080
+
+  wordpress:
+    image: mfashby/ysc-wordpress
+    build: wordpress
+    environment:
+      WORDPRESS_DB_PASSWORD: example
+
+  adminer:
+    image: adminer
+    ports: 
+     - 8081:8080

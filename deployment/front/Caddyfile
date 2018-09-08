@@ -1,0 +1,23 @@
+{$EXTERNAL_URL}
+tls {$TLS_CONFIG}
+
+# Docker can collect and process the logs
+log stdout
+
+# Any files Caddy serves will be in here
+root /static/
+
+# Requests for API subpaths go to the API server
+proxy /api http://api-server:3000
+proxy /explorer http://api-server:3000
+
+# Proxy everything else to wordpress
+proxy / http://wordpress {
+    transparent
+
+    # Apart from any Single Page Apps we want to serve ourselves (list them all here)
+    except /results
+}
+
+
+
