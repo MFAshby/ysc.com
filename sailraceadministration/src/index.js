@@ -6,6 +6,14 @@ import './index.css'
 
 const API_SERVER = process.env.REACT_APP_API_SERVER
 
+async function fetchJson(url) {
+    let resp = await fetch(`${API_SERVER}/${url}`)
+    if (!resp.ok) {
+        throw resp
+    }
+    return await resp.json()
+}
+
 class Main extends Component {
     render() {
         return <div>
@@ -22,7 +30,6 @@ class Main extends Component {
 
 class Nav extends Component {
     render() {
-        
         return <ul>
             <NavLink to={`/`}>Home</NavLink> 
             <NavLink to={`/individuals`}>Individuals</NavLink> 
@@ -39,8 +46,54 @@ class Home extends Component {
 }
 
 class Individuals extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            loading: false,
+            individuals: []
+        }
+    }
+
+    async loadIndividuals() {
+        this.setState({loading: true})
+        let individuals = await fetchJson("individuals?filter[include]=boattype")
+        this.setState({
+            loading: false, 
+            individuals: individuals
+        })
+    }
+
+    componentDidMount() {
+        this.loadIndividuals()
+            .catch(e => console.log(e))
+    }
+
     render() {
-        return <span>Individuals</span>
+        let {loading, individuals} = this.state
+        if (loading) {
+            return <span>Loading...</span>
+        }
+        let individualRows = individuals.map(i => <tr>
+            <td>{i.name}</td>
+            <td>{i.boatnum}</td>
+            <td>{i.boattype.btype}</td>
+        </tr>)
+        return <div>
+            {
+                individuals.length > 0 ? 
+                <table>
+                    <thead>
+                        <th>Name</th>
+                        <th>Sail Number</th>
+                        <th>Boat type</th>
+                    </thead>
+                    <tbody>
+                        {individualRows}
+                    </tbody>
+                </table> : 
+                <span>No individuals!</span>
+            }
+        </div>
     }
 }
 
@@ -51,6 +104,12 @@ class Series extends Component {
 }
 
 class BoatClasses extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+
+        }
+    }
     render() {
         return <span>Boat classes</span>
     }
