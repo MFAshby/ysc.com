@@ -60,7 +60,7 @@ class App extends Component {
         }
     }
 
-    async updateRaces(numRaces) {
+    async updateRaces (numRaces) {
         this.setState({loading: true, numRaces: numRaces})
 
         // Fetch the latest completed races, including all linked data
