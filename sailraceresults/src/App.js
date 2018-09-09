@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import { calculatePositions } from 'sailracecalculator'
+import { calculatePositions } from '../../sailracecalculator'
 
 const API_SERVER = process.env.REACT_APP_API_SERVER 
 
@@ -17,32 +17,9 @@ class LoadingIndicator extends Component {
 }
 
 class RaceResult extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            loading: false,
-            results: []
-        }
-    }
-
-    updateResults = async () => {
-        this.setState({loading: true})
-        let { race } = this.props
-        calculatePositions(race)
-        this.setState({
-            loading: false,
-            results: race.result
-        })
-    }
-
-    componentDidMount() {
-        this.updateResults()
-            .catch((e) => console.log(e))
-    }
-
     render() {
-        let { race } = this.props
-        let { loading, results } = this.state
+        let race = calculatePositions(this.props.race)
+        let results = race.result
         let resultRows = results
             .map(it => <tr key={it.id}><td>{it.posn}</td>
                                        <td>{it.individual.name}</td>
@@ -53,7 +30,6 @@ class RaceResult extends Component {
         return <div>
             <h2>{race.name}</h2>
             <p>{race.racedate.toDateString()}</p>
-            <LoadingIndicator loading={loading}/>
             { resultRows.length === 0 ?
                 <h3>No results</h3> :
                 <table>
@@ -80,12 +56,11 @@ class App extends Component {
         this.state = {
             loading: false,
             numRaces: 10,
-            series: [],
             races: []
         }
     }
 
-    updateRaces = async (numRaces) => {
+    async updateRaces(numRaces) {
         this.setState({loading: true, numRaces: numRaces})
 
         // Fetch the latest completed races, including all linked data
@@ -119,7 +94,7 @@ class App extends Component {
         })
     }
 
-    doUpdateRaces = (numRaces) => {
+    doUpdateRaces(numRaces) {
         this.updateRaces(numRaces)
             .catch((e) => console.log(e))
     }

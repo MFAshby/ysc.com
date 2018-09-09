@@ -1,9 +1,0 @@
-{
-  "name": "sailracecalculator",
-  "version": "1.0.0",
-  "description": "Calculations library for sailing races",
-  "main": "lib/index.js",
-  "repository": "github.com/MFAshby/ysc.com",
-  "author": "Martin Ashby",
-  "license": "MIT"
-}
