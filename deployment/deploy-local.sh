@@ -16,7 +16,7 @@ PUBLIC_URL=http://localhost:8080/results \
   yarn run build
 popd
 
-# Build the admin widget
+# Build the admin component
 pushd ../sailraceadministration
 yarn
 PUBLIC_URL=http://localhost:8080/admin \
@@ -29,16 +29,6 @@ rm -rf front/static/results
 cp -r ../sailraceresults/build front/static/results
 rm -rf front/static/admin
 cp -r ../sailraceadministration/build front/static/admin
-
-# Build the results wordpress widget
-pushd ../sailraceresults-plugin
-yarn 
-yarn run prod
-popd
-
-# Copy it to wordpress
-rm -rf wordpress/files/html/wp-content/plugins/sailraceresults-plugin
-cp -r ../sailraceresults-plugin wordpress/files/html/wp-content/plugins/
 
 # rebuild all docker images, re-create containers
 docker-compose down

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import './App.css'
 import { calculatePositions } from '../../sailracecalculator'
 
-const API_SERVER = process.env.REACT_APP_API_SERVER 
-
 async function fetchJson(target) {
     let response = await fetch(target)
     return await response.json()
@@ -82,7 +80,7 @@ class App extends Component {
             limit:numRaces
         })
 
-        let races = await fetchJson(`${API_SERVER}/races?filter=${api_select}`)
+        let races = await fetchJson(`${this.props.apiServer}/races?filter=${api_select}`)
         // Parse dates into actual dates
         races.forEach(r => {
             r.racedate = new Date(r.rdate)
