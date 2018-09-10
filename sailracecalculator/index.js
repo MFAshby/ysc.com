@@ -23,7 +23,7 @@ function isRetired(result) {
 /**
  * Accepts a Race with result data. 
  * Returns a copy of the race & results, with adjtime and posn populated correctly
- * @param race 
+ * @param race
  */
 export function calculatePositions(race) {
     // Find the result with the most laps
@@ -53,9 +53,14 @@ export function calculatePositions(race) {
     return Object.assign({}, race, {result: returnResults})
 }
 
-function calculateSeries(races, people) {
-    // people should be an empty array but just in case it isnt
-    people.length = 0
+/**
+ * Accepts a list of sace with result data representing a series. The races should have
+ * been previously filled with posn values using calculatePositions() above
+ * Returns an array of people/fleet combinations, with data for rendering in correct order 
+ * @param races
+ */
+export function calculateSeries(races) {
+    let people = []
     races.forEach((race, i) => {
         race.result.forEach(r => {
             let ix = people.findIndex(p => {return (p.name === r.individual.name &&
@@ -68,7 +73,7 @@ function calculateSeries(races, people) {
                             tot_score: 0, tot_qual_score: 0, splitter: "",
                             av_posn: 0.0, qualified:false, posn_list: []})
             }
-            people[ix].posn_list.push({raceid: race.id, posn: r.posn, discard: false,
+            people[ix].posn_list.push({posn: r.posn, discard: false,
                                     col: i})
         })
     })
@@ -95,8 +100,8 @@ function calculateSeries(races, people) {
         // this is a bit clunky c.f. a slick `... Array map` construction but I suppose
         // it's clear what's happening
         var j = 0
-        new_posn_list = []
-        for (i = 0; i < races.length; i++) {
+        let new_posn_list = []
+        for (var i = 0; i < races.length; i++) {
             if (i === p.posn_list[j].col) {
                 new_posn_list.push(p.posn_list[j])
                 if (j < (p.posn_list.length - 1)) {
@@ -118,4 +123,5 @@ function calculateSeries(races, people) {
         }
         return a.av_posn > b.av_posn
     })
+    return people
 }
