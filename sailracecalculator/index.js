@@ -52,3 +52,70 @@ export function calculatePositions(race) {
     .sort((a, b) => a.posn > b.posn)
     return Object.assign({}, race, {result: returnResults})
 }
+
+function calculateSeries(races, people) {
+    // people should be an empty array but just in case it isnt
+    people.length = 0
+    races.forEach((race, i) => {
+        race.result.forEach(r => {
+            let ix = people.findIndex(p => {return (p.name === r.individual.name &&
+                                            p.fleet === r.individual.boattype.fleet)})
+            if (ix < 0) { // i.e. new entry
+                ix = people.length
+                people.push({name: r.individual.name, boatnum: r.individual.boatnum,
+                            fleet: r.individual.boattype.fleet,
+                            btype: r.individual.boattype.btype,
+                            tot_score: 0, tot_qual_score: 0, splitter: "",
+                            av_posn: 0.0, qualified:false, posn_list: []})
+            }
+            people[ix].posn_list.push({raceid: race.id, posn: r.posn, discard: false,
+                                    col: i})
+        })
+    })
+
+    // now should have populated people array - work out best scores and generate splitter
+    people.forEach(p => {
+        p.posn_list.sort((a, b) => a.posn > b.posn)
+        p.posn_list.forEach((pl, i) => {
+            p.tot_score += pl.posn
+            if (i < races[0].series.ntocount) {
+                p.tot_qual_score += pl.posn
+                pl.discard = false
+            } else {
+                pl.discard = true
+            }
+            p.splitter += pl.posn.toString(10).padStart(2, '0')
+        })
+        p.splitter += "99"
+
+        p.av_posn = p.tot_score / p.posn_list.length
+        p.qualified = (p.posn_list.length >= races[0].series.ntocount) // in races.length == 0 then cant get here...
+        p.posn_list.sort((a, b) => a.col > b.col) // put back in original order
+        // finally make races line up by filling in spaces
+        // this is a bit clunky c.f. a slick `... Array map` construction but I suppose
+        // it's clear what's happening
+        var j = 0
+        new_posn_list = []
+        for (i = 0; i < races.length; i++) {
+            if (i === p.posn_list[j].col) {
+                new_posn_list.push(p.posn_list[j])
+                if (j < (p.posn_list.length - 1)) {
+                    j += 1
+                }
+            } else {
+                new_posn_list.push({})
+            }
+        }
+        p.posn_list = new_posn_list
+    })
+
+    // sort into order of overall results
+    people.sort((a, b) => {
+        if (a.qualified && !b.qualified) return -1 // qualified is lower than not qual
+        if (!a.qualified && b.qualified) return 1
+        if (a.qualified && b.qualified) {
+            return a.tot_qual_score >= b.tot_qual_score && a.splitter > b.splitter
+        }
+        return a.av_posn > b.av_posn
+    })
+}
