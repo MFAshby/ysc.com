@@ -70,11 +70,10 @@ export function calculateSeries(races, n_to_count=-1) {
                                             p.fleet === r.individual.boattype.fleet)})
             if (ix < 0) { // i.e. new entry
                 ix = people.length
-                people.push({name: r.individual.name, boatnum: r.individual.boatnum,
-                            fleet: r.individual.boattype.fleet,
-                            btype: r.individual.boattype.btype,
-                            tot_score: 0, tot_qual_score: 0, splitter: "",
-                            av_posn: 0.0, qualified:false, posn_list: []})
+                people.push({id: r.individualid, name: r.individual.name,
+                            boatnum: r.individual.boatnum, fleet: r.individual.boattype.fleet,
+                            btype: r.individual.boattype.btype, tot_score: 0, tot_qual_score: 0,
+                            splitter: "", av_posn: 0.0, qualified:false, posn_list: []})
             }
             people[ix].posn_list.push({posn: r.posn, discard: false,
                                     col: i})

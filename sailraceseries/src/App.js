@@ -19,13 +19,12 @@ class Person extends Component {
         let person = this.props.person
         let positions = person.posn_list
         let positionCells = positions
-            .map((p, i) => {
+            .map(p => {
             if (p.discard) { 
-                return <td  key={i} className="discard">{p.posn}</td>
+                return <td  key={p.col} className="discard">{p.posn}</td>
             }
-            return <td  key={i}>{p.posn}</td>
-
-            })
+            return <td  key={p.col}>{p.posn}</td>
+        })
         let qualified = ""
         if (person.qualified) {
             qualified = "qualified"
@@ -148,11 +147,11 @@ class App extends Component {
     render() {
         let { races, people, seriesids, loading, series_list } = this.state
         let headList = races
-            .map((r, i) => <th key={i}>{r.name}</th>)
+            .map(r => <th key={r.id}>{r.name}</th>)
         let personList = people
-            .map((p, i) => (<Person key={i} person={p}/>))
+            .map(p => (<Person key={p.id} person={p}/>))
         let seriesList = series_list
-            .map((s, i) => <option key={i} value={s.id}>{s.name}</option>)
+            .map(s => <option key={s.id} value={s.id}>{s.name}</option>)
         return (
             <div className="App">
                 <LoadingIndicator loading={loading}/>
