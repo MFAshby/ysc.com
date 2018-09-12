@@ -59,8 +59,11 @@ export function calculatePositions(race) {
  * Returns an array of people/fleet combinations, with data for rendering in correct order 
  * @param races
  */
-export function calculateSeries(races) {
+export function calculateSeries(races, n_to_count=-1) {
     let people = []
+    if (n_to_count == -1) {
+        n_to_count = races[0].series.ntocount
+    }
     races.forEach((race, i) => {
         race.result.forEach(r => {
             let ix = people.findIndex(p => {return (p.name === r.individual.name &&
@@ -83,7 +86,7 @@ export function calculateSeries(races) {
         p.posn_list.sort((a, b) => a.posn > b.posn)
         p.posn_list.forEach((pl, i) => {
             p.tot_score += pl.posn
-            if (i < races[0].series.ntocount) {
+            if (i < n_to_count) {
                 p.tot_qual_score += pl.posn
                 pl.discard = false
             } else {
@@ -94,7 +97,7 @@ export function calculateSeries(races) {
         p.splitter += "99"
 
         p.av_posn = p.tot_score / p.posn_list.length
-        p.qualified = (p.posn_list.length >= races[0].series.ntocount) // in races.length == 0 then cant get here...
+        p.qualified = (p.posn_list.length >= n_to_count) // in races.length == 0 then cant get here...
         p.posn_list.sort((a, b) => a.col > b.col) // put back in original order
         // finally make races line up by filling in spaces
         // this is a bit clunky c.f. a slick `... Array map` construction but I suppose
