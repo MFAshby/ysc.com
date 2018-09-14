@@ -75,8 +75,8 @@ export function calculateSeries(races, n_to_count=-1) {
                             btype: r.individual.boattype.btype, tot_score: 0, tot_qual_score: 0,
                             splitter: "", av_posn: 0.0, qualified:false, posn_list: []})
             }
-            people[ix].posn_list.push({posn: r.posn, discard: false,
-                                    col: i})
+            people[ix].posn_list.push({posn: r.posn, laps: r.nlaps, rtime: r.rtime,
+                                        adjtime: r.adjtime, discard: false, col: i})
         })
     })
 
@@ -110,7 +110,7 @@ export function calculateSeries(races, n_to_count=-1) {
                     j += 1
                 }
             } else {
-                new_posn_list.push({})
+                new_posn_list.push({col: i}) // needed for key
             }
         }
         p.posn_list = new_posn_list
@@ -121,7 +121,11 @@ export function calculateSeries(races, n_to_count=-1) {
         if (a.qualified && !b.qualified) return -1 // qualified is lower than not qual
         if (!a.qualified && b.qualified) return 1
         if (a.qualified && b.qualified) {
-            return a.tot_qual_score >= b.tot_qual_score && a.splitter > b.splitter
+            let score_diff = a.tot_qual_score - b.tot_qual_score
+            if (score_diff == 0) {
+                return (a.splitter < b.splitter) ? -1 : 1
+            }
+            return score_diff 
         }
         return a.av_posn > b.av_posn
     })

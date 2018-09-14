@@ -16,14 +16,20 @@ class LoadingIndicator extends Component {
 
 class Person extends Component {
     render() {
+        let endings = {1:"st", 2:"nd", 3:"rd"}
         let person = this.props.person
         let positions = person.posn_list
         let positionCells = positions
-            .map(p => {
+            .map((p, i) => {
+            var details = p.posn
+            if (details > "0" && i == this.props.detail_race) {
+                details += (endings[p.posn] || "th") + " " + p.laps + "laps " + p.rtime + " " + p.adjtime
+            } 
             if (p.discard) { 
-                return <td  key={p.col} className="discard">{p.posn}</td>
+                return <td  key={p.col} className="discard">{details}</td>
+            } else {
+                return <td  key={p.col}>{details}</td>
             }
-            return <td  key={p.col}>{p.posn}</td>
         })
         let qualified = ""
         if (person.qualified) {
@@ -31,8 +37,12 @@ class Person extends Component {
         }
 
         return <tr>
+                <td>{this.props.ix + 1}</td>
                 <td className={qualified}>{person.name}</td>
                 <td>{person.fleet}</td>
+                <td>{person.posn_list.reduce((tot, pl) => {
+                        return tot + (pl.posn > 0 ? 1 : 0)
+                    }, 0)}</td>
                 <td>{person.tot_qual_score}</td>
                 <td>{person.av_posn.toFixed(2)}</td>{positionCells}
             </tr>
@@ -49,12 +59,14 @@ class App extends Component {
             people: [],
             series_list: [],
             sub_select: "",
-            n_to_count: -1
+            n_to_count: -1,
+            detail_race: -1
         }
         this.doupdateSeries = this.doupdateSeries.bind(this)
         this.doupdateSelection = this.doupdateSelection.bind(this)
         this.doupdateSubSelect = this.doupdateSubSelect.bind(this)
         this.doupdateNtoCount = this.doupdateNtoCount.bind(this)
+        this.doupdateDetailRace = this.doupdateDetailRace.bind(this)
     }
 
     async updateSeriesList() {
@@ -115,7 +127,6 @@ class App extends Component {
 
     doupdateSeries(event) {
         this.updateSeries(this.state.seriesids)
-            .catch((e) => console.log(e))
         event.preventDefault()
     }
 
@@ -140,16 +151,27 @@ class App extends Component {
         this.setState({n_to_count: n_to_count})
     }
 
+    doupdateDetailRace(event) {
+        let {detail_race} = this.state
+        let name = event.target.attributes.name.value
+        if (detail_race == name) {
+            detail_race = -1
+        } else {
+            detail_race = name
+        }
+        this.setState({detail_race: detail_race})
+    }
+
     componentDidMount() {
         this.updateSeriesList()
     }
 
     render() {
-        let { races, people, seriesids, loading, series_list } = this.state
+        let { races, people, seriesids, loading, series_list, detail_race } = this.state
         let headList = races
-            .map(r => <th key={r.id}>{r.name}</th>)
+            .map((r, i) => <th key={r.id} name={i} onClick={this.doupdateDetailRace}>{r.name}</th>)
         let personList = people
-            .map(p => (<Person key={p.id} person={p}/>))
+            .map((p, i) => (<Person key={p.id} person={p} ix={i} detail_race={detail_race}/>))
         let seriesList = series_list
             .map(s => <option key={s.id} value={s.id}>{s.name}</option>)
         return (
@@ -164,7 +186,8 @@ class App extends Component {
                     <input type="submit" value="Submit" />
                 </form>
                 <table>
-                    <thead><tr><th>Person</th><th>Fleet</th><th>Score</th><th>Av.Posn</th>
+                    <thead><tr><th>Posn</th><th>Person</th><th>Fleet</th><th>Races</th>
+                    <th>Score</th><th>Av.Posn</th>
                         {headList}
                     </tr></thead>
                     <tbody>
