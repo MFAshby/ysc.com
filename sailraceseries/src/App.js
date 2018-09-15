@@ -37,14 +37,14 @@ class Person extends Component {
         }
 
         return <tr>
-                <th>{person.fleet}</th>
-                <th>{person.posn_list.reduce((tot, pl) => {
+                <th className={qualified}>{person.name}</th>
+                <td>{this.props.ix + 1}</td>
+                <td>{person.fleet}</td>
+                <td>{person.posn_list.reduce((tot, pl) => {
                         return tot + (pl.posn > 0 ? 1 : 0)
-                    }, 0)}</th>
-                <th>{person.tot_qual_score}</th>
-                <th>{person.av_posn.toFixed(2)}</th>
-                <th>{this.props.ix + 1}</th>
-                <th className={qualified}>{person.name}</th>{positionCells}
+                    }, 0)}</td>
+                <td>{person.tot_qual_score}</td>
+                <td>{person.av_posn.toFixed(2)}</td>{positionCells}
             </tr>
     }
 }
@@ -187,9 +187,8 @@ class App extends Component {
                 </form>
                 <div className="container">
                     <table className="series_table">
-                        <thead><tr><th>Fleet</th><th>Races</th>
-                        <th>Score</th><th>Av.Posn</th><th>Posn</th><th>Person</th>
-                            {headList}
+                        <thead><tr><th>Person</th><th>Posn</th><th>Fleet</th>
+                        <th>Races</th><th>Score</th><th>Av.Posn</th>{headList}
                         </tr></thead>
                         <tbody>
                             {personList}
