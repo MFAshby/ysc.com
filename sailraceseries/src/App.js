@@ -22,8 +22,8 @@ class Person extends Component {
         let positionCells = positions
             .map((p, i) => {
             var details = p.posn
-            if (details > "0" && i == this.props.detail_race) {
-                details += (endings[p.posn] || "th") + " " + p.laps + "laps " + p.rtime + " " + p.adjtime
+            if (details > "0" && i == this.props.detail_race) { // unicode nbsp, not sure how to do this (and other jsx stuff!!!)
+                details += (endings[p.posn] || "th") + "\u00A0" + p.laps + "laps\u00A0" + p.rtime + "\u00A0" + p.adjtime
             } 
             if (p.discard) { 
                 return <td  key={p.col} className="discard">{details}</td>
@@ -37,14 +37,14 @@ class Person extends Component {
         }
 
         return <tr>
-                <td>{this.props.ix + 1}</td>
-                <td className={qualified}>{person.name}</td>
-                <td>{person.fleet}</td>
-                <td>{person.posn_list.reduce((tot, pl) => {
+                <th>{person.fleet}</th>
+                <th>{person.posn_list.reduce((tot, pl) => {
                         return tot + (pl.posn > 0 ? 1 : 0)
-                    }, 0)}</td>
-                <td>{person.tot_qual_score}</td>
-                <td>{person.av_posn.toFixed(2)}</td>{positionCells}
+                    }, 0)}</th>
+                <th>{person.tot_qual_score}</th>
+                <th>{person.av_posn.toFixed(2)}</th>
+                <th>{this.props.ix + 1}</th>
+                <th className={qualified}>{person.name}</th>{positionCells}
             </tr>
     }
 }
@@ -185,15 +185,17 @@ class App extends Component {
                     N-to-count:<input type="text" size="1" onChange={this.doupdateNtoCount}></input>
                     <input type="submit" value="Submit" />
                 </form>
-                <table>
-                    <thead><tr><th>Posn</th><th>Person</th><th>Fleet</th><th>Races</th>
-                    <th>Score</th><th>Av.Posn</th>
-                        {headList}
-                    </tr></thead>
-                    <tbody>
-                        {personList}
-                    </tbody>
-                </table>
+                <div className="container">
+                    <table className="series_table">
+                        <thead><tr><th>Fleet</th><th>Races</th>
+                        <th>Score</th><th>Av.Posn</th><th>Posn</th><th>Person</th>
+                            {headList}
+                        </tr></thead>
+                        <tbody>
+                            {personList}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }
