@@ -3,21 +3,17 @@ version: '3'
 services:
   mysql:
     image: mfashby/ysc-mysql
-    build: mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: example
 
   api-server:
     image: mfashby/ysc-apiserver
-    build: ../sailraceserver
 
   front:
     image: mfashby/ysc-front
-    build: front
 
   wordpress:
     image: mfashby/ysc-wordpress
-    build: wordpress
     environment:
       WORDPRESS_DB_PASSWORD: example

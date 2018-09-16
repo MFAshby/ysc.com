@@ -28,4 +28,4 @@ rm -rf wordpress/files/html/wp-content/plugins/sailraceresults/app
 cp -r ../sailraceresults/results/. wordpress/files/html/wp-content/plugins/sailraceresults/app
 
 # Build the docker images (this embeds all the files in them)
-docker-compose build
+docker-compose -f docker-compose.yml -f docker-compose.build.yml build

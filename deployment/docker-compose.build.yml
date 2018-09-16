@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mysql:
+    build: mysql
+
+  api-server:
+    build: ../sailraceserver
+
+  front:
+    build: front
+
+  wordpress:
+    build: wordpress
