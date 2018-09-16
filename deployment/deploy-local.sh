@@ -30,6 +30,10 @@ cp -r ../sailraceresults/build front/static/results
 rm -rf front/static/admin
 cp -r ../sailraceadministration/build front/static/admin
 
+# Copy single page apps to wordpress as well
+rm -rf wordpress/files/html/wp-content/plugins/sailraceresults/app
+cp -r ../sailraceresults/build/. wordpress/files/html/wp-content/plugins/sailraceresults/app
+
 # rebuild all docker images, re-create containers
 docker-compose down
 docker-compose build
