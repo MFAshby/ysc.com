@@ -7,21 +7,17 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: example
-    ports:
-     - 3306:3306
 
   api-server:
     image: mfashby/ysc-apiserver
     build: ../sailraceserver
-    environment:
-     - DB_URL
 
   front:
     image: mfashby/ysc-front
     build: front
     environment:
-     - EXTERNAL_URL
-     - TLS_CONFIG
+     - "EXTERNAL_URL=http://localhost:8080"
+     - "TLS_CONFIG=off"
     ports:
      - 8080:8080
 

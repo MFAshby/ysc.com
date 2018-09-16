@@ -3,4 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-ReactDOM.render(<App apiServer={process.env.REACT_APP_API_SERVER}/>, document.getElementById('root'));
+let apiServer = process.env.NODE_ENV === 'development' ? 
+            'http://localhost:8080/api' :
+            window.location.origin + '/api';
+ReactDOM.render(<App apiServer={apiServer}/>, document.getElementById('root'));

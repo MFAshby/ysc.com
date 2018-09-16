@@ -17,8 +17,8 @@
     "parcel-bundler": "^1.9.7"
   },
   "scripts": {
-    "start": "REACT_APP_API_SERVER=http://localhost:8080/api parcel src/index.html -p 3000",
-    "build": "parcel build src/index.html --out-dir build --public-url $PUBLIC_URL"
+    "start": "parcel src/index.html -p 3000",
+    "build": "parcel build src/index.html --out-dir admin --public-url /admin/"
   },
   "babel": {
     "presets": [
