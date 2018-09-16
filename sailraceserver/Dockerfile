@@ -1,3 +1,3 @@
 FROM node
-COPY . .
-ENTRYPOINT ["node", "server/server.js"]
+COPY . app
+ENTRYPOINT ["node", "app/server/server.js"]

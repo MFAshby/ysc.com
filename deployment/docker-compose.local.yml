@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  front:
+    environment:
+     - "EXTERNAL_URL=http://localhost:8080"
+     - "TLS_CONFIG=off"
+    ports:
+     - 8080:8080
+
+  adminer:
+    image: adminer
+    ports: 
+     - 8081:8080

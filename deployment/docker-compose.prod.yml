@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  front:
+    environment:
+     - "EXTERNAL_URL=ysc.nsupdate.info"
+     - "TLS_CONFIG= "
+    ports:
+     - 80
+     - 443

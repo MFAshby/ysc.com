@@ -1,0 +1,22 @@
+version: '3'
+
+# Same as the local version, but everything mounted from filesystem instead of built into images
+services:
+  mysql:
+    volumes: 
+      - "./mysql/sql/:/docker-entrypoint-initdb.d/"
+
+  api-server:
+    volumes:
+      - "../sailraceserver/:/app/"
+
+  front:
+    volumes:
+      - "./front/static/:/static"
+      - "./front/Caddyfile:/etc/Caddyfile"
+
+  wordpress:
+    volumes:
+      - "./wordpress/files/html/:/var/www/html/"
+      - "../sailraceresults/results/:/var/www/html/wp-content/plugins/sailraceresults/app/"
+      - "./wordpress/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini"

@@ -18,6 +18,7 @@
   },
   "scripts": {
     "start": "parcel src/index.html -p 3000",
+    "watch": "parcel watch src/index.html --out-dir admin --public-url /admin/",
     "build": "parcel build src/index.html --out-dir admin --public-url /admin/"
   },
   "babel": {

@@ -15,19 +15,9 @@ services:
   front:
     image: mfashby/ysc-front
     build: front
-    environment:
-     - "EXTERNAL_URL=http://localhost:8080"
-     - "TLS_CONFIG=off"
-    ports:
-     - 8080:8080
 
   wordpress:
     image: mfashby/ysc-wordpress
     build: wordpress
     environment:
       WORDPRESS_DB_PASSWORD: example
-
-  adminer:
-    image: adminer
-    ports: 
-     - 8081:8080
