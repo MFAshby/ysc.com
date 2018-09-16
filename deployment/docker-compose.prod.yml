@@ -4,9 +4,14 @@ services:
   front:
     environment:
      - "EXTERNAL_URL=ysc.nsupdate.info"
-     - "TLS_CONFIG= "
+     - "TLS_CONFIG=martin@ashbysoft.com"
      - "ACME_AGREE=true"
     ports:
-     - 80
-     - 443
+     - 80:80
+     - 443:443
+  wordpress:
+    environment:
+      WORDPRESS_ADDITIONAL_CONFIG: |
+        /* Multisite */
+        define('DOMAIN_CURRENT_SITE', 'ysc.nsupdate.info');
     
