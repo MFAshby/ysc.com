@@ -5,6 +5,8 @@ services:
     environment:
      - "EXTERNAL_URL=ysc.nsupdate.info"
      - "TLS_CONFIG= "
+     - "ACME_AGREE=true"
     ports:
      - 80
      - 443
+    
