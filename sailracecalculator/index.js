@@ -54,10 +54,11 @@ export function calculatePositions(race) {
 }
 
 /**
- * Accepts a list of sace with result data representing a series. The races should have
+ * Accepts a list of races with result data representing a series. The races should have
  * been previously filled with posn values using calculatePositions() above
  * Returns an array of people/fleet combinations, with data for rendering in correct order 
  * @param races
+ * @param n_to_count - number of races to be included in total (-1 uses value specified in series table)
  */
 export function calculateSeries(races, n_to_count=-1) {
     let people = []
