@@ -15,6 +15,22 @@ class LoadingIndicator extends Component {
 }
 
 class RaceResult extends Component {
+    constructor(props) {
+        super(props);
+        this.dodeleteResult = this.dodeleteResult.bind(this);
+    }
+
+
+    dodeleteResult(event) {
+        let ix = event.target.name
+        let result_to_delete = this.props.race_results.result.find(r => {
+            if (r.id == ix) return true
+            return false
+        })
+        this.props.deletefunction(result_to_delete)
+        event.preventDefault()
+    }
+
     render() {
         let race_results = calculatePositions(this.props.race_results)
         let results = race_results.result
@@ -26,8 +42,11 @@ class RaceResult extends Component {
                                        <td>{r.nlaps}</td>
                                        <td>{r.rtime}</td>
                                        <td>{r.adjtime}</td>
+                                       <td><button type="BUTTON" name={r.id} onClick={this.dodeleteResult}>DELETE</button></td>
                         </tr>)
-
+        /*
+        * this seems to be a very convoluted way to delete results
+        */
         return <div>
             <h3>{race_results.name}</h3>
             { resultRows.length === 0 ?
@@ -42,6 +61,7 @@ class RaceResult extends Component {
                         <th>Laps</th>
                         <th>Time</th>
                         <th>Adjusted Time</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -58,6 +78,8 @@ class App extends Component {
         super(props)
         this.state = {
             loading: false,
+            // which section to show: race, results, individual
+            section: "race",
             // for race details
             race_list: [],
             selected_race: -1,
@@ -83,6 +105,7 @@ class App extends Component {
 
         this.doupdateResult = this.doupdateResult.bind(this)
         this.dosaveResult = this.dosaveResult.bind(this)
+        this.dodelResult = this.dodelResult.bind(this)
         this.doupdateIndividualFilter = this.doupdateIndividualFilter.bind(this)
         this.doupdateIndividualSelection = this.doupdateIndividualSelection.bind(this)
 
@@ -90,6 +113,10 @@ class App extends Component {
         this.doupdateStateValue = this.doupdateStateValue.bind(this)
     }
 
+    /*
+    * read individuals from database and populate lists of individuals, names, boatnums
+    * and boattypes
+    */
     async updateIndividualList() {
         //TODO this should be order desc (date of latest race linked via result table)
         // this will probably have to be saved as extra field in individual table
@@ -115,6 +142,10 @@ class App extends Component {
         })
     }
 
+    /*
+    * reads races from the database to create the race_list and pre-selects the one nearest
+    * to todays date
+    */
     async updateRaceList() {
         this.setState({loading: true})
         let {selected_race} = this.state
@@ -145,6 +176,9 @@ class App extends Component {
         })
     }
 
+    /*
+    * writes the selected race back to database with correct legs, ood, wind etc
+    */
     async saveSelectedRace () {
         this.setState({loading: true})
         let {race_list, selected_race} = this.state
@@ -169,7 +203,8 @@ class App extends Component {
         })
     }
 
-    /* use upsertwithwhere to overwrite existing record if exists, otherwise create
+    /*
+     * use upsertwithwhere to overwrite existing record if exists, otherwise create
      * a new one
      * */
     async saveResult(result) {
@@ -196,6 +231,32 @@ class App extends Component {
         })
     }
 
+    /*
+    * delete an incorrectly entered result record
+    */
+    async deleteResult(result) {
+        console.log(result)
+        this.setState({loading: true})
+        let init_data = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        }
+        let response = await fetchJson(`${this.props.apiServer}/Results/${result.id}`,
+            init_data)
+        this.updateRaceResult(result.raceid)
+
+        this.setState({
+            loading: false
+        })
+    }
+
+    /*
+    * loads results for this race including individual and boattype info to produce the
+    * calculated result using handicap (as used in series and results)
+    */
     async updateRaceResult(raceid) {
         this.setState({loading: true})
         let api_select = JSON.stringify({
@@ -220,6 +281,9 @@ class App extends Component {
         })
     }
 
+    /*
+    * write a newly created record into the individual table
+    */
     async saveIndividual(individual) {
         this.setState({loading: true})
         let init_data = {
@@ -250,6 +314,9 @@ class App extends Component {
         // then load race_results..
         this.updateRaceResult(race_list[selected_race].id)
         event.preventDefault()
+        this.setState({
+            section: "results"
+        })
         this.indivFilter.current.focus()
     }
 
@@ -262,6 +329,10 @@ class App extends Component {
         this.setState({
             race_list: race_list,
         })
+    }
+
+    dodelResult(result) {
+        this.deleteResult(result)
     }
 
     doupdateRaceSelection(event) {
@@ -360,7 +431,7 @@ class App extends Component {
     }
 
     render() {
-        let { loading, individual_list, individual_filter, race_list, selected_race,
+        let { section, loading, individual_list, individual_filter, race_list, selected_race,
               race_results, result, name_list, boatnum_list, boattype_list, name,
               boattypeid, boatnum } = this.state
         // for race selection
@@ -407,6 +478,8 @@ class App extends Component {
         return (
             <div className="App">
                 <LoadingIndicator loading={loading}/>
+                <button name="section" value="race" onClick={this.doupdateStateValue} className="block">Race Details</button>
+                <div>{section == "race" ?
                 <form onSubmit={this.dosaveSelectedRace}>
                     <table><tbody><tr>
                         <td>
@@ -427,8 +500,12 @@ class App extends Component {
                             <input type="submit" value="SAVE CHANGES" />
                         </td>
                     </tr></tbody></table>
-                </form>
-
+                </form> :
+                <br />
+                }</div>
+                <button name="section" value="results" onClick={this.doupdateStateValue} className="block">Enter Results</button>
+                <div>{section == "results" ?
+                <div>
                 <form onSubmit={this.dosaveResult}>
                     <table><tbody><tr>
                         <td className="input_cell">
@@ -447,9 +524,14 @@ class App extends Component {
                     </tr></tbody></table>
                 </form>
                 <div>{ (race_results.result != undefined) ?
-                <RaceResult race_results={race_results}/> :
+                <RaceResult race_results={race_results} deletefunction={this.dodelResult}/> :
                 <p>need to enter results</p>
                 }</div>
+                </div> :
+                <br />
+                }</div>
+                <button name="section" value="individual" onClick={this.doupdateStateValue} className="block">Add New Individual</button>
+                <div>{section == "individual" ?
                 <div>
                 <h3>Make sure there isn`t already an entry for this Name + Sail number combination</h3>
                 <form onSubmit={this.dosaveIndividual}>
@@ -470,7 +552,9 @@ class App extends Component {
                         </td>
                     </tr></tbody></table>
                 </form>
-                </div>
+                </div> :
+                <br />
+                }</div>
             </div>
         )
     }
