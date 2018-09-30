@@ -317,7 +317,7 @@ class App extends Component {
         this.setState({
             section: "results"
         })
-        this.indivFilter.current.focus()
+        this.indivFilter.current.focus() // hmm, this is null while not being rendered!
     }
 
     doupdateRace(event) {
@@ -481,25 +481,25 @@ class App extends Component {
                 <button name="section" value="race" onClick={this.doupdateStateValue} className="block">Race Details</button>
                 <div>{section == "race" ?
                 <form onSubmit={this.dosaveSelectedRace}>
-                    <table><tbody><tr>
-                        <td>
+                    <div className="flexblock">
+                        <div>
                             <select size="8"  value={selected_race} onChange={this.doupdateRaceSelection}>
                                 {raceList}
                             </select>
-                        </td>
-                        <td className="input_cell">
+                        </div>
+                        <div>
                             Legs in whole lap:<input type="text" name="wholelegs" value={r.wholelegs} size="1" onChange={this.doupdateRace}></input><br />
                             Legs in part lap:<input type="text" name="partlegs" value={r.partlegs} size="1" onChange={this.doupdateRace}></input><br />
                             OOD:<input type="text" name="ood" value={(r.ood==null) ? "" : r.ood} size="10" onChange={this.doupdateRace}></input><br />
                             AOOD:<input type="text" name="aood" value={(r.aood==null) ? "" : r.aood} size="10" onChange={this.doupdateRace}></input>
-                        </td>
-                        <td className="input_cell">
+                        </div>
+                        <div>
                             Wind direction (i.e. NW):<input type="text" name="winddir" value={(r.winddir==null) ? "" : r.winddir} size="1" onChange={this.doupdateRace}></input><br />
                             Wind strength (knots i.e. 5-20):<input type="text" name="windstr" value={(r.windstr==null) ? "" : r.windstr} size="1" onChange={this.doupdateRace}></input><br />
                             Comments:<input type="text" name="comments" value={(r.comments==null) ? "" : r.comments} size="25" onChange={this.doupdateRace}></input><br />
                             <input type="submit" value="SAVE CHANGES" />
-                        </td>
-                    </tr></tbody></table>
+                        </div>
+                    </div>
                 </form> :
                 <br />
                 }</div>
@@ -507,21 +507,21 @@ class App extends Component {
                 <div>{section == "results" ?
                 <div>
                 <form onSubmit={this.dosaveResult}>
-                    <table><tbody><tr>
-                        <td className="input_cell">
+                    <div className="flexblock">
+                        <div>
                             Filter:<input type="text" name="individual_filter" value={individual_filter}
-                                    size="1" onChange={this.doupdateStateValue} ref={this.indivFilter}></input><br />
-                            <select size="8" onChange={this.doupdateIndividualSelection}>
+                                    size="3" onChange={this.doupdateStateValue} ref={this.indivFilter}></input><br />
+                            <select size="10" onChange={this.doupdateIndividualSelection}>
                                 {individualList}
                             </select>
-                        </td>
-                        <td className="input_cell">
+                        </div>
+                        <div>
                             Number of full laps:<input type="text" name="nlaps" value={result.nlaps} size="1" onChange={this.doupdateResult}></input><br />
-                            Time as HHMMSS or MMSS:<input type="text" name="rtime" value={result.rtime} size="1" onChange={this.doupdateResult}></input><br />
-                            Crew:<input type="text" name="crew" value={result.crew} size="2" onChange={this.doupdateResult}></input><br />
+                            Time as HHMMSS or MMSS:<input type="text" name="rtime" value={result.rtime} size="5" onChange={this.doupdateResult}></input><br />
+                            Crew:<input type="text" name="crew" value={result.crew} size="5" onChange={this.doupdateResult}></input><br />
                             <input type="submit" value="INSERT RESULT" />
-                        </td>
-                    </tr></tbody></table>
+                        </div>
+                    </div>
                 </form>
                 <div>{ (race_results.result != undefined) ?
                 <RaceResult race_results={race_results} deletefunction={this.dodelResult}/> :
@@ -535,22 +535,22 @@ class App extends Component {
                 <div>
                 <h3>Make sure there isn`t already an entry for this Name + Sail number combination</h3>
                 <form onSubmit={this.dosaveIndividual}>
-                    <table><tbody><tr>
-                        <td className="input_cell">
+                    <div className="flexblock">
+                        <div>
                         Name:<input type="text" name="name" size="5" onChange={this.doupdateStateValue}></input><br />
                         <ul>{filteredNameList}</ul>
-                        </td>
-                        <td className="input_cell">
-                            <select size="8" name="boattypeid" onChange={this.doupdateStateValue}>
+                        </div>
+                        <div>
+                            <select size="10" name="boattypeid" onChange={this.doupdateStateValue}>
                             {boatTypeLlist}
                             </select>
-                        </td>
-                        <td className="input_cell">
+                        </div>
+                        <div>
                         Sail Number:<input type="text" name="boatnum" size="3" onChange={this.doupdateStateValue}></input><br />
                         <ul>{filteredBoatNumList}</ul>
                         <input type="submit" value="INSERT INDIVIDUAL" />
-                        </td>
-                    </tr></tbody></table>
+                        </div>
+                    </div>
                 </form>
                 </div> :
                 <br />
