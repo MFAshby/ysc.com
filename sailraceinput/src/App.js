@@ -118,17 +118,16 @@ class App extends Component {
     * and boattypes
     */
     async updateIndividualList() {
-        //TODO this should be order desc (date of latest race linked via result table)
-        // this will probably have to be saved as extra field in individual table
         this.setState({loading: true})
         let api_select = JSON.stringify({
-            include:"boattype"
+            include:"boattype",
+            order: "splitter DESC"
         })
-        let individual_list = await fetchJson(`${this.props.apiServer}/individuals?filter=${api_select}`)
+        let individual_list = await fetchJson(`${this.props.apiServer}/Individuals?filter=${api_select}`)
         
         let name_list = Array.from(new Set(individual_list.map(i => i.name)).values())
         let boatnum_list = Array.from(new Set(individual_list.map(i => i.boatnum)).values())
-        let boattype_list = await fetchJson(`${this.props.apiServer}/boattypes`)
+        let boattype_list = await fetchJson(`${this.props.apiServer}/Boattypes`)
         name_list.sort()
         boatnum_list.sort()
         boattype_list.sort((a, b) => a.btype > b.btype)
@@ -152,7 +151,7 @@ class App extends Component {
         let api_select = JSON.stringify({
             order:["rdate DESC", "name DESC"],
         })
-        let race_list = await fetchJson(`${this.props.apiServer}/races?filter=${api_select}`)
+        let race_list = await fetchJson(`${this.props.apiServer}/Races?filter=${api_select}`)
 
         if (selected_race == -1) {
             selected_race = 0
@@ -195,7 +194,7 @@ class App extends Component {
             },
             body: JSON.stringify(race)
         }
-        let response = await fetchJson(`${this.props.apiServer}/races/${race.id}`,
+        let response = await fetchJson(`${this.props.apiServer}/Races/${race.id}`,
             init_data)
 
         this.setState({
@@ -222,9 +221,35 @@ class App extends Component {
             body: JSON.stringify(result)
         }
         let response = await fetchJson(`${this.props.apiServer}/Results/upsertWithWhere?where=${where_json}`,
-            init_data)
+            init_data) //TODO some kind of verification that this updated OK
         // update results has to wait for the result to be saved so do in this async fn
         this.updateRaceResult(result.raceid)
+        // modify the splitter field for sorting individual table
+        this.saveRaceDate(result.individualid)
+
+        this.setState({
+            loading: false
+        })
+    }
+
+    /*
+    * put latest date into individual table
+    * TODO the function saveIndividual() might do this satisfactorily, or combine with this
+    */
+    async saveRaceDate(individualid) {
+        this.setState({loading: true})
+        let {race_results} = this.state
+        let rdate = race_results.rdate.slice(0, 10)
+        let init_data = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({splitter: rdate})
+        }
+        let response = await fetchJson(`${this.props.apiServer}/Individuals/${individualid}`,
+            init_data) //TODO verify OK
 
         this.setState({
             loading: false
@@ -272,7 +297,7 @@ class App extends Component {
             }
         })
 
-        let race_results = await fetchJson(`${this.props.apiServer}/races/${raceid}?filter=${api_select}`)
+        let race_results = await fetchJson(`${this.props.apiServer}/Races/${raceid}?filter=${api_select}`)
         calculatePositions(race_results)
         race_results.racedate = new Date(race_results.rdate)
         this.setState({
@@ -295,7 +320,7 @@ class App extends Component {
             body: JSON.stringify(individual)
         }
         let response = await fetchJson(`${this.props.apiServer}/Individuals/`,
-            init_data)
+            init_data) //TODO
         // update individuals list has to wait for above to be saved so do in this async fn
         this.updateIndividualList()
 

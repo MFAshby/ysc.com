@@ -104,7 +104,7 @@ export function calculateSeries(races, n_to_count=-1) {
         // it's clear what's happening
         var j = 0
         let new_posn_list = []
-        for (var i = 0; i < races.length; i++) {
+        for (let i = 0; i < races.length; i++) {
             if (i === p.posn_list[j].col) {
                 new_posn_list.push(p.posn_list[j])
                 if (j < (p.posn_list.length - 1)) {
