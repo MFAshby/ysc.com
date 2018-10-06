@@ -22,8 +22,9 @@
   "properties": {
     "id": {
       "type": "Number",
+      "generated": true,
       "id": 1,
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -68,7 +69,7 @@
     },
     "rtime": {
       "type": "String",
-      "required": false,
+      "required": true,
       "length": null,
       "precision": null,
       "scale": null,
@@ -113,7 +114,7 @@
     },
     "raceid": {
       "type": "Number",
-      "required": false,
+      "required": true,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -164,7 +165,7 @@
       "accessType": "WRITE",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "DENY"
+      "permission": "ALLOW"
     },
     {
       "accessType": "WRITE",

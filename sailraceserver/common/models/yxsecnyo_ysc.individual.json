@@ -17,8 +17,9 @@
   "properties": {
     "id": {
       "type": "Number",
+      "generated": true,
       "id": 1,
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -108,7 +109,7 @@
     },
     "sortscore": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 22,
       "scale": null,
@@ -138,7 +139,7 @@
     },
     "pursuit1": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -153,7 +154,7 @@
     },
     "pursuit2": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -168,7 +169,7 @@
     },
     "splitter": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 128,
       "precision": null,
       "scale": null,
@@ -189,7 +190,7 @@
       "accessType": "WRITE",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "DENY"
+      "permission": "ALLOW"
     },
     {
       "accessType": "WRITE",
