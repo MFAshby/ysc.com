@@ -110,9 +110,9 @@ class App extends Component {
         let api_select = JSON.stringify(api_select_obj)
         let races = await fetchJson(`${this.props.apiServer}/races?filter=${api_select}`)
         // Parse dates into actual dates
-        races.forEach(r => {
+        races.forEach((r, i) => {
             r.racedate = new Date(r.rdate)
-            calculatePositions(r)
+            races[i] = calculatePositions(r) // seems convoluted, maybe a vanilla for loop would be better!
         })
 
         // update people list in situ //TODO something cleverer as per races
