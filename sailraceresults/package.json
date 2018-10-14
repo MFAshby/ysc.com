@@ -13,9 +13,9 @@
     "parcel-bundler": "^1.9.7"
   },
   "scripts": {
-    "start": "parcel src/index.html src/index.js -p 3000",
-    "watch": "parcel watch src/index.html src/index.js --out-dir results --public-url /results/",
-    "build": "parcel build src/index.html src/index.js --out-dir results --public-url /results/"
+    "start": "parcel src/index.html src/index.js src/input/index.html src/input/index.js src/series/index.html src/series/index.js -p 3000",
+    "watch": "parcel watch src/index.html src/index.js src/input/index.html src/input/index.js src/series/index.html src/series/index.js --out-dir results --public-url /results/",
+    "build": "parcel build src/index.html src/index.js src/input/index.html src/input/index.js src/series/index.html src/series/index.js --out-dir results --public-url /results/"
   },
   "babel": {
     "presets": [

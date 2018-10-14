@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import './App.css'
-import { calculatePositions, calculateSeries } from '../../sailracecalculator'
+import '../App.css'
+import { calculatePositions, calculateSeries } from '../../../sailracecalculator'
 
 async function fetchJson(target, init_data) {
     let response = await fetch(target, init_data)

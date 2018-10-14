@@ -745,3 +745,14 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-09-16 10:15:45
+
+UPDATE `individual` SET splitter = '2000-01-01';
+UPDATE `individual` AS i LEFT JOIN (
+	SELECT r.individualID, MAX(e.rdate) AS latest
+    FROM `result` AS r
+    LEFT JOIN `race` AS e
+    ON r.raceID = e.ID
+    GROUP BY r.individualID
+) AS q ON i.ID = q.individualID
+SET i.splitter = q.latest
+WHERE NOT q.latest IS NULL;

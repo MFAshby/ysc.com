@@ -51,3 +51,76 @@ td {
   background: #FAFAFA; /* Lighter grey background */
   text-align: center; /* Center our text */
 }
+
+/* series results table styles
+*/
+.discard {
+  color: #D0A0A0;
+  text-decoration: line-through;
+}
+
+.qualified {
+  background: #D0FAD0;
+}
+
+.container {
+  max-width: 100%;
+  max-height: 30em;
+  overflow: scroll;
+  position: relative;
+}
+
+.series_table {
+  position: relative;
+  border-collapse: collapse;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: #DDD;
+  color: #444;
+}
+
+thead th:first-child {
+  left: 0;
+  z-index: 1;
+}
+
+tbody th {
+  position: sticky;
+  left: 0;
+  background: #DDD;
+  border-right: 1px solid #CCC;
+}
+
+/* for full width clickable dividers
+*/
+.block {
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: #A0CF90;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* for flex blocks
+*/
+.flexblock {
+  width: 100%;
+  border: 3px solid #FFFFA0;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flexblock div {
+  -webkit-flex: 1;  /* Safari 6.1+ */
+  -ms-flex: 1;  /* IE 10 */
+  flex: 1;
+  white-space: nowrap;
+  text-align: right;
+}
