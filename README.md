@@ -13,21 +13,21 @@ cd ysc.com/deployment
 ./deploy-local.sh
 ```
 
-Once this has completed successfully, you will be able to view a demo of the new website by navigating to http://localhost:8080/
-The results widget can be viewed independently at http://localhost:8080/results
-The API explorer is available at http://localhost:8080/explorer
+Once this has completed successfully, you will be able to view a demo of the new website by navigating to http://localhost/
+The API explorer is available at http://localhost/explorer
 An admin interface for the database is available at http://localhost:8081/
 
-Individual components can be run and tested independently. To run the race results component, after running `./deploy-local`:
+The test site can be run in dev mode, which will pick up changes made in the source code of individual components:
 ```bash
-cd sailraceresults
-yarn start
+cd ysc.com/deployment
+./deploy-devmode.sh
 ```
 
-This will open the widget in a new browser tab, and will automatically reload when you make changes.
-Similarly to run the administration component only: 
+Individual components can be run and tested independently. E.g. to run the race results component in dev mode:
 ```bash
-cd sailraceadministration
+cd ysc.com/deployment
+./deploy-local.sh
+cd ../sailraceresults
 yarn start
 ```
 

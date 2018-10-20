@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-docker-compose pull -f docker-compose.yml -f docker-compose.prod.yml -d
-docker-compose up -f docker-compose.yml -f docker-compose.prod.yml -d
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 docker-compose logs -f
