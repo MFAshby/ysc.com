@@ -11,6 +11,12 @@ yarn
 yarn run watch&
 popd
 
+# Build the series results component
+pushd ../sailraceseries
+yarn
+yarn run watch&
+popd
+
 # Build the admin component
 pushd ../sailraceinput
 yarn
