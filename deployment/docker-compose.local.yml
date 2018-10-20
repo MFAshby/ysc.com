@@ -8,6 +8,10 @@ services:
     ports:
      - "80:80"
 
+  mysql:
+    volumes:
+     - "./mysql/sql/:/docker-entrypoint-initdb.d/"
+     
   adminer:
     image: adminer
     ports: 

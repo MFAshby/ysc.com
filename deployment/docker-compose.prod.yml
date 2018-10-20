@@ -9,6 +9,10 @@ services:
     ports:
      - 80:80
      - 443:443
+  mysql:
+    volumes:
+     - "./mysql/sql/:/docker-entrypoint-initdb.d/" 
+     - "/data:/var/lib/mysql"
   wordpress:
     environment:
       WORDPRESS_ADDITIONAL_CONFIG: |
