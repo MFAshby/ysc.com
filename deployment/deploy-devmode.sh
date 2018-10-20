@@ -12,7 +12,7 @@ yarn run watch&
 popd
 
 # Build the admin component
-pushd ../sailraceadministration
+pushd ../sailraceinput
 yarn
 yarn run watch&
 popd

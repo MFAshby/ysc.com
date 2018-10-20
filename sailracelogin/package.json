@@ -1,0 +1,31 @@
+{
+  "name": "sailracelogin",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "author": "Martin Ashby",
+  "license": "MIT",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "react": "^16.5.2",
+    "react-cookie": "^3.0.4",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "parcel-bundler": "^1.10.3"
+  },
+  "scripts": {
+    "start": "parcel src/test.html -p 3000",
+    "build": "parcel build src/index.js"
+  },
+  "babel": {
+    "presets": [
+      "react"
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
+  }
+}

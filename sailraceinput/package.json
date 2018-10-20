@@ -1,0 +1,30 @@
+{
+  "name": "sailraceinput",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "sailracelogin": "../sailracelogin/"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "parcel-bundler": "^1.9.7"
+  },
+  "scripts": {
+    "start": "parcel src/test.html -p 3000",
+    "watch": "parcel watch src/index.html src/index.js",
+    "build": "parcel build src/index.js src/index.js"
+  },
+  "babel": {
+    "presets": [
+      "react"
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
+  }
+}
