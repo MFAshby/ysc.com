@@ -17,6 +17,8 @@ services:
 
   wordpress:
     volumes:
-      - "./wordpress/files/html/:/var/www/html/"
-      - "../sailraceresults/results/:/var/www/html/wp-content/plugins/sailraceresults/app/"
       - "./wordpress/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini"
+      - "./wordpress/sailraceresults.php:/var/www/html/wp-content/plugins/sailraceresults/sailraceresults.php"
+      - "../sailraceresults/dist/:/var/www/html/wp-content/plugins/sailraceresults/results/"
+      - "../sailraceinput/dist/:/var/www/html/wp-content/plugins/sailraceresults/input/"
+      - "../sailraceseries/dist/:/var/www/html/wp-content/plugins/sailraceresults/series/"

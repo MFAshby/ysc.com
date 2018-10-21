@@ -14,7 +14,4 @@ proxy /explorer http://api-server:3000
 # Proxy everything else to wordpress
 proxy / http://wordpress {
     transparent
-
-    # Apart from any Single Page Apps we want to serve ourselves (list them all here)
-    except /results /admin
 }

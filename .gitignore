@@ -1,5 +1,7 @@
 build/
-out/
+dist/
 .gradle/
 .idea/
 *.iml
+**/node_modules/
+**/.cache/
