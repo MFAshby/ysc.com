@@ -3,7 +3,7 @@ import './index.css'
 import React, {createElement, Component } from 'react'
 import ReactDOM  from 'react-dom'
 import { calculatePositions, calculateSeries } from '../../sailracecalculator'
-import { withLogin, LoginContext } from 'sailracelogin'
+import { withLogin, LoginContext } from '../../sailracelogin/src/'
 
 class LoadingIndicator extends Component {
     render() {
@@ -33,14 +33,14 @@ class RaceResult extends Component {
         let race_results = calculatePositions(this.props.race_results)
         let results = race_results.result
         let resultRows = results
-            .map(r => <tr key={r.id}><td>{r.posn}</td>
-                                       <td>{r.individual.name}</td>
+            .map(r => <tr key={r.id}><td className="ysc-4em">{r.posn}</td>
+                                       <td className="ysc-10em">{r.individual.name}</td>
                                        <td>{r.individual.boatnum}</td>
                                        <td>{r.individual.boattype.btype}</td>
-                                       <td>{r.nlaps}</td>
+                                       <td className="ysc-4em">{r.nlaps}</td>
                                        <td>{r.rtime}</td>
                                        <td>{r.adjtime}</td>
-                                       <td><button type="BUTTON" name={r.id} onClick={this.dodeleteResult}>DELETE</button></td>
+                                       <td><button type="BUTTON" name={r.id} onClick={this.dodeleteResult}>DEL</button></td>
                         </tr>)
         /*
         * this seems to be a very convoluted way to delete results
@@ -52,11 +52,11 @@ class RaceResult extends Component {
                 <table>
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Name</th>
+                        <th className="ysc-4em">#</th>
+                        <th className="ysc-10em">Name</th>
                         <th>Sail No.</th>
                         <th>Boat</th>
-                        <th>Laps</th>
+                        <th className="ysc-4em">Laps</th>
                         <th>Time</th>
                         <th>Adjusted Time</th>
                         <th></th>
@@ -515,10 +515,10 @@ class App extends Component {
         return (
             <div className="App">
                 <LoadingIndicator loading={loading}/>
-                <button name="section" value="race" onClick={this.doupdateStateValue} className="block">Race Details</button>
+                <button name="section" value="race" onClick={this.doupdateStateValue} className="ysc-block">Race Details</button>
                 <div>{section == "race" ?
                 <form onSubmit={this.dosaveSelectedRace}>
-                    <div className="flexblock">
+                    <div className="ysc-flexblock">
                         <div>
                             <select size="8"  value={selected_race} onChange={this.doupdateRaceSelection}>
                                 {raceList}
@@ -540,11 +540,11 @@ class App extends Component {
                 </form> :
                 <br />
                 }</div>
-                <button name="section" value="results" onClick={this.doupdateStateValue} className="block">Enter Results</button>
+                <button name="section" value="results" onClick={this.doupdateStateValue} className="ysc-block">Enter Results</button>
                 <div>{section == "results" ?
                 <div>
                 <form onSubmit={this.dosaveResult}>
-                    <div className="flexblock">
+                    <div className="ysc-flexblock">
                         <div>
                             Filter:<input type="text" name="individual_filter" value={individual_filter}
                                     size="3" onChange={this.doupdateStateValue} ref={this.indivFilter}></input><br />
@@ -567,12 +567,12 @@ class App extends Component {
                 </div> :
                 <br />
                 }</div>
-                <button name="section" value="individual" onClick={this.doupdateStateValue} className="block">Add New Individual</button>
+                <button name="section" value="individual" onClick={this.doupdateStateValue} className="ysc-block">Add New Individual</button>
                 <div>{section == "individual" ?
                 <div>
                 <h3>Make sure there isn`t already an entry for this Name + Sail number combination</h3>
                 <form onSubmit={this.dosaveIndividual}>
-                    <div className="flexblock">
+                    <div className="ysc-flexblock">
                         <div>
                         Name:<input type="text" name="name" size="5" onChange={this.doupdateStateValue}></input><br />
                         <ul>{filteredNameList}</ul>

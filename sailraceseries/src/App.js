@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import '../App.css'
-import { calculatePositions, calculateSeries } from '../../../sailracecalculator'
+import './App.css'
+import { calculatePositions, calculateSeries } from '../../sailracecalculator'
 
 async function fetchJson(target) {
     let response = await fetch(target)
@@ -26,24 +26,24 @@ class Person extends Component {
                 details += (endings[p.posn] || "th") + "\u00A0" + p.laps + "laps\u00A0" + p.rtime + "\u00A0" + p.adjtime
             } 
             if (p.discard) { 
-                return <td  key={p.col} className="discard">{details}</td>
+                return <td  key={p.col} className="ysc-discard">{details}</td>
             } else {
                 return <td  key={p.col}>{details}</td>
             }
         })
-        let qualified = ""
+        let qualified = "ysc-10em"
         if (person.qualified) {
-            qualified = "qualified"
+            qualified = "ysc-qualified ysc-10em"
         }
 
         return <tr>
                 <th className={qualified}>{person.name}</th>
-                <td>{this.props.ix + 1}</td>
+                <td className="ysc-4em">{this.props.ix + 1}</td>
                 <td>{person.fleet}</td>
-                <td>{person.posn_list.reduce((tot, pl) => {
+                <td className="ysc-4em">{person.posn_list.reduce((tot, pl) => {
                         return tot + (pl.posn > 0 ? 1 : 0)
                     }, 0)}</td>
-                <td>{person.tot_qual_score}</td>
+                <td className="ysc-4em">{person.tot_qual_score}</td>
                 <td>{person.av_posn.toFixed(2)}</td>{positionCells}
             </tr>
     }
@@ -185,10 +185,12 @@ class App extends Component {
                     N-to-count:<input type="text" size="1" onChange={this.doupdateNtoCount}></input>
                     <input type="submit" value="Submit" />
                 </form>
-                <div className="container">
-                    <table className="series_table">
-                        <thead><tr><th>Person</th><th>Posn</th><th>Fleet</th>
-                        <th>Races</th><th>Score</th><th>Av.Posn</th>{headList}
+                <div className="ysc-container">
+                    <table className="ysc-series_table">
+                        <thead><tr><th className="ysc-10em">Person</th>
+                        <th className="ysc-4em">Posn</th><th>Fleet</th>
+                        <th className="ysc-4em">Races</th><th className="ysc-4em">Score</th>
+                        <th>Av.Posn</th>{headList}
                         </tr></thead>
                         <tbody>
                             {personList}
